@@ -1,0 +1,19 @@
+import React, { FC } from 'react'
+import { useTheme } from "theme"
+
+interface <%= namePascalCase %>Props {
+    prop1: string,
+    prop2: string,
+}
+
+export const <%= namePascalCase %>: FC<<%= namePascalCase %>Props> = ({
+    prop1,
+    prop2 = "title",
+}) => {
+    const theme = useTheme()
+
+    return (
+        <>
+        </>
+    )
+}

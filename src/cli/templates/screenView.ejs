@@ -1,0 +1,14 @@
+import React, { ReactElement } from "react"
+import { useDispatch } from "react-redux"
+import { useTheme } from "theme"
+import * as controller from "./<%= namePascalCase %>Controller"
+
+export function <%= namePascalCase %>View ():ReactElement {
+    const dispatch = useDispatch()
+    const theme = useTheme()
+
+    return (
+        <>
+        </>
+    )
+}
