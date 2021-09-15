@@ -1,7 +1,5 @@
 before_all do
-    ensure_git_branch
     ensure_git_status_clean
-    git_pull
 end
 
 platform :ios do
@@ -36,16 +34,32 @@ platform :ios do
 end
 
 platform :android do
-    desc: "Android build and release to beta"
+    desc "Android build and release to beta"
     lane :beta do
-        increment_version_code(app_project_dir: './android/app')
-        gradle(task: 'clean', project_dir: './android/')
-        gradle(task: 'bundle', build_type: 'Release', project_dir: './android')
-        supply(track: 'beta', aab: './android/app/build/outputs/bundle/release/app-release.aab')
+#         android_set_version_code(
+#             version_code: number_of_commits,
+#             gradle_file: "./android/app/build.gradle"
+#         )
+#         android_set_version_name(
+#             version_name: "1.1.0",
+#             gradle_file: "./android/app/build.gradle"
+#         )
+#         gradle(task: 'clean', project_dir: './android')
+#         gradle(
+#             task: 'bundle',
+#             build_type: 'Release',
+#             project_dir: './android',
+#         )
+        upload_to_play_store(
+            track: 'internal',
+            aab: './android/app/build/outputs/bundle/release/app-release.aab',
+            json_key: './fastlane/play-store-credentials.json',
+            release_status: 'draft'
+        )
     end
 
     lane :release do
-        increment_version_code(app_project_dir: './android/app')
+        increment_version_code(gradle_file_path: './android/app', app_folder_name: 'app')
         increment_version_name(app_project_dir: './android/app', bump_type: 'patch')
         gradle(task: 'clean', project_dir: './android/')
         gradle(task: 'bundle', build_type: 'Release', project_dir: './android')
